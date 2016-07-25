@@ -4,8 +4,10 @@ import android.content.Context;
 
 
 import com.walle.meitu.data.Constant;
+import com.walle.meitu.data.remote.convert.FileConverterFactory;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 
 import okhttp3.Cache;
@@ -14,6 +16,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -62,7 +65,10 @@ public class NetWorkManager  {
         };
 
         OkHttpClient client = new OkHttpClient.Builder().cache(cache).addInterceptor(interceptor).addInterceptor(logInterceptor).build();
-        retrofit = new Retrofit.Builder().client(client).addConverterFactory(GsonConverterFactory.create()).addCallAdapterFactory(RxJavaCallAdapterFactory.create()).baseUrl(Constant.BaseUrl).build();
+        retrofit = new Retrofit.Builder().client(client).addConverterFactory(FileConverterFactory.creat())
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .baseUrl(Constant.BaseUrl).build();
     }
     public  Retrofit getDefaultRetrofit() {
         checkInit();

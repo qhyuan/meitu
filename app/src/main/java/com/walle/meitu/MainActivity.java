@@ -13,11 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.walle.meitu.data.DataManager;
+import com.walle.meitu.data.remote.NetWorkManager;
+import com.walle.meitu.data.remote.SimpleSubscribers;
 import com.walle.meitu.data.remote.model.PicType;
 import com.walle.meitu.utils.LogUtil;
 import com.walle.meitu.view.MainFragment;
 import com.walle.meitu.view.MainPresenter;
 import com.walle.meitu.view.PicListFragment;
+
+import java.io.File;
+
+import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnListFragmentInteractionListener {
 
@@ -32,6 +39,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //// TODO: 2016/7/20 文件下载测试
+        String url = "http://120.210.211.197:8080/consumer/img/1.jpg";
+        DataManager.downloadFile(url, new SimpleSubscribers<File>(){});
+        ////
+
 
         mMain = $(R.id.main_panel);
         FragmentManager manager = getFragmentManager();

@@ -31,7 +31,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadPicTypes() {
-        DataManager.getInstance().getPicTypes(new MySubscriber<PicType>(mView) {
+        DataManager.getPicTypes(new MySubscriber<PicType>(mView) {
 
             @Override
             public void onNext(PicType picType) {
@@ -51,7 +51,7 @@ public class MainPresenter implements MainContract.Presenter {
         if(entity==null)
             entity = mTitleEntity;
         mLoadedId = entity.secondList.get(0).id;
-        DataManager.getInstance().searchPic(mLoadedId,mLoadedPage,new MySubscriber<SearchPic>(mShowPicView){
+        DataManager.searchPic(mLoadedId,mLoadedPage,new MySubscriber<SearchPic>(mShowPicView){
 
             @Override
             public void onNext(SearchPic searchPic) {
@@ -70,7 +70,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void loadMorePic() {
-        DataManager.getInstance().searchPic(mLoadedId,mLoadedPage+1,new MySubscriber<SearchPic>(mShowPicView){
+        DataManager.searchPic(mLoadedId,mLoadedPage+1,new MySubscriber<SearchPic>(mShowPicView){
             @Override
             public void onNext(SearchPic searchPic) {
                 super.onNext(searchPic);
