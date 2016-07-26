@@ -42,6 +42,7 @@ public class SimpleSubscribers<T>  extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
+        e.printStackTrace();
         Log.e(TAG, "onError="+e.getMessage());
     }
 

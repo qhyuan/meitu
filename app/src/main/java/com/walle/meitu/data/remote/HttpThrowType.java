@@ -1,8 +1,8 @@
 package com.walle.meitu.data.remote;
 
 enum HttpThrowType{
-        CODE_300 (300,"qw"),
-        CODE_404 (404,"qwe");
+        CODE_300 (300,"300"),
+        CODE_404 (404,"404");
 
         private final String name;
         private final int code;

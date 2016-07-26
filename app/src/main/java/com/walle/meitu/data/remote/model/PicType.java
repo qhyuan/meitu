@@ -1,5 +1,8 @@
 package com.walle.meitu.data.remote.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -34,9 +37,38 @@ public class PicType implements IResult<PicType.ShowapiResBody>{
             @SerializedName("list")
             public ArrayList<SecondListEntity> secondList;
 
-            public static class SecondListEntity {
+            public static class SecondListEntity implements Parcelable {
                 public int id;
                 public String name;
+
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel dest, int flags) {
+                    dest.writeInt(this.id);
+                    dest.writeString(this.name);
+                }
+
+                public SecondListEntity() {
+                }
+
+                protected SecondListEntity(Parcel in) {
+                    this.id = in.readInt();
+                    this.name = in.readString();
+                }
+
+                public static final Parcelable.Creator<SecondListEntity> CREATOR = new Parcelable.Creator<SecondListEntity>() {
+                    public SecondListEntity createFromParcel(Parcel source) {
+                        return new SecondListEntity(source);
+                    }
+
+                    public SecondListEntity[] newArray(int size) {
+                        return new SecondListEntity[size];
+                    }
+                };
             }
         }
     }
