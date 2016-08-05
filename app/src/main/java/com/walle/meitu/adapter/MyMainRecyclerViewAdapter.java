@@ -42,10 +42,7 @@ public class MyMainRecyclerViewAdapter extends RecyclerView.Adapter<MyMainRecycl
             }
         });
     }
-    public void refreshData(ArrayList<PicType.ShowapiResBody.RootListEntity>  items){
-        mValues = items;
-        notifyDataSetChanged();
-    }
+
     @Override
     public int getItemCount() {
         return mValues.size();

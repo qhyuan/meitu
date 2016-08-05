@@ -11,7 +11,7 @@ import com.walle.meitu.view.showpic.ShowPicFragment;
 import java.util.ArrayList;
 
 /**
- * Created by void on 16/3/12.
+ * Created by void on 16/3/12
  */
 public class ShowPicAdapter extends FragmentPagerAdapter {
     private ArrayList<SearchPic.ShowapiResBody.Pagebean.Contentlist.List> mData;

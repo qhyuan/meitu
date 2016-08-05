@@ -1,27 +1,26 @@
 package com.walle.meitu.view.home;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.walle.meitu.R;
+import com.walle.meitu.adapter.PicListRecyclerViewAdapter;
+import com.walle.meitu.base.BaseFragment;
 import com.walle.meitu.data.remote.model.SearchPic;
-import com.walle.meitu.listener.LoadMoreListener;
+import com.walle.meitu.listener.LoadMore;
 import com.walle.meitu.utils.LogUtil;
 import com.walle.meitu.widget.DividerGridItemDecoration;
 
-public class PicListFragment extends Fragment {
+public class PicListFragment extends BaseFragment {
     private static final String ARG_LIST = "arg-list";
 
     private SearchPic.ShowapiResBody.Pagebean mData;
     private PicListRecyclerViewAdapter adapter;
     private RecyclerView recycleView;
     private View mLoadMoreView;
-    private LoadMoreListener mLoadMoreListener;
+    private LoadMore mLoadMoreListener;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -31,7 +30,7 @@ public class PicListFragment extends Fragment {
     }
 
 
-    public static PicListFragment newInstance(MainFragment.LoadMore loadMoreListener) {
+    public static PicListFragment newInstance(LoadMore loadMoreListener) {
         PicListFragment fragment = new PicListFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_LIST, loadMoreListener);
@@ -49,12 +48,8 @@ public class PicListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void initView() {
         adapter = new PicListRecyclerViewAdapter(mData, null);
-        View view = inflater.inflate(R.layout.fragment_piclist_list2, container, false);
-        recycleView = (RecyclerView) view.findViewById(R.id.list);
-        mLoadMoreView = view.findViewById(R.id.loadmore);
         final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycleView.setLayoutManager(layoutManager);
         recycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -70,8 +65,19 @@ public class PicListFragment extends Fragment {
         recycleView.setAdapter(adapter);
         recycleView.addItemDecoration(new DividerGridItemDecoration(getActivity().getApplicationContext()));
         showLoadMore(false);
-        return view;
     }
+
+    @Override
+    protected void findView(View view) {
+        recycleView = (RecyclerView) view.findViewById(R.id.list);
+        mLoadMoreView = view.findViewById(R.id.loadmore);
+    }
+
+    @Override
+    public int getContentViewRes() {
+        return R.layout.fragment_piclist_list2;
+    }
+
 
     private void showLoadMore(boolean isShow) {
         mLoadMoreView.setVisibility(isShow?View.VISIBLE:View.INVISIBLE);
@@ -79,11 +85,7 @@ public class PicListFragment extends Fragment {
 
     public void refreshData(SearchPic.ShowapiResBody.Pagebean data) {
         mData = data;
-        LogUtil.i("refreshData currentPage=" + mData.currentPage);
-        if (adapter == null) {
-            adapter = new PicListRecyclerViewAdapter(mData, null);
-            recycleView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-        }
+        LogUtil.i("refreshData currentPageSize=" + mData.contentlist.size());
         adapter.refreshData(mData);
         showLoadMore(false);
     }
